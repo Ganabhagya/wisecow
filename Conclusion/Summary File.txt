@@ -1,2 +1,0 @@
-This setup enables automated containerization, deployment to Kubernetes, and optional TLS implementation for the Wisecow application using GitHub Actions. Adjust configurations based on your specific application requirements and infrastructure setup.
-This code outlines the Dockerfile for containerization, the Kubernetes deployment and service manifest files for deployment, and the GitHub Actions workflow for CI/CD automation. These components together will facilitate the containerization, deployment, and secure TLS communication of the Wisecow application on Kubernetes.

@@ -17,4 +17,4 @@ spec:
         - name: wisecow
           image: yourdockerhubusername/wisecow-app:latest  # Replace with your Docker Hub username and image name
           ports:
-            - containerPort: 3000
+            - containerPort: 4499

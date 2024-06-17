@@ -1,0 +1,22 @@
+# Dockerfile
+# Base image
+FROM tomcat:8.0.43-jre8
+
+# Create app directory
+ADD sample.war /usr/local/tomcat/webapps/
+ADD server.xml /usr/local/tomcat/conf/
+WORKDIR /usr/src/app
+
+
+
+# Bundle app source
+COPY . .
+
+# Expose the application port
+EXPOSE 4499
+
+COPY wisecow.sh ./
+
+RUN chmod 0755 ./wisecow.sh
+# Command to run the application
+CMD ["./wisecow.sh", "run" ]
