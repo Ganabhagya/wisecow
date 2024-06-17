@@ -1,0 +1,106 @@
+Dockerfile: Defines the environment and dependencies needed to run the Wisecow application inside a Docker container.
+
+# Kubernetes Manifests: deployment.yaml specifies how many instances (pods) of the application to run, and service.yaml exposes the application within the Kubernetes cluster.
+
+# GitHub Actions Workflow: Automates the build and push of the Docker image to Docker Hub on every push to the main branch. It then deploys the updated application to Kubernetes using Azure's Kubernetes deploy action.
+
+# Dockerfile
+# Base image
+FROM node:14
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Expose the application port
+EXPOSE 3000
+
+# Command to run the application
+CMD ["npm", "start"]
+
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wisecow-app
+spec:
+  replicas: 3  # Adjust as per your requirement
+  selector:
+    matchLabels:
+      app: wisecow
+  template:
+    metadata:
+      labels:
+        app: wisecow
+    spec:
+      containers:
+        - name: wisecow
+          image: yourdockerhubusername/wisecow-app:latest  # Replace with your Docker Hub username and image name
+          ports:
+            - containerPort: 3000
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wisecow-service
+spec:
+  selector:
+    app: wisecow
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer  # Expose externally via a LoadBalancer service
+
+# github/workflows/build-deploy.yml
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: yourdockerhubusername/wisecow-app:latest
+
+      - name: Deploy to Kubernetes
+        uses: azure/k8s-deploy@v1
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          namespace: default
+          images: |
+            yourdockerhubusername/wisecow-app:latest
+          manifests: |
+            kubernetes/deployment.yaml
+            kubernetes/service.yaml
+
+Extend Kubernetes manifests with Ingress configuration (ingress.yaml) for TLS termination. Manage TLS secrets in Kubernetes accordingly.
