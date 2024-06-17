@@ -1,0 +1,5 @@
+Create a public GitHub repository (github.com/yourusername/wisecow) containing:
+The Wisecow application source code.
+The Dockerfile.
+kubernetes directory with deployment.yaml and service.yaml.
+.github/workflows/build-deploy.yml for GitHub Actions workflow.

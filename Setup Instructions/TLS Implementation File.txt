@@ -1,0 +1,1 @@
+Extend Kubernetes manifests with Ingress configuration (ingress.yaml) for TLS termination. Manage TLS secrets in Kubernetes accordingly.

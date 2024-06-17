@@ -1,0 +1,5 @@
+# Dockerfile: Defines the environment and dependencies needed to run the Wisecow application inside a Docker container.
+
+# Kubernetes Manifests: deployment.yaml specifies how many instances (pods) of the application to run, and service.yaml exposes the application within the Kubernetes cluster.
+
+# GitHub Actions Workflow: Automates the build and push of the Docker image to Docker Hub on every push to the main branch. It then deploys the updated application to Kubernetes using Azure's Kubernetes deploy action.
