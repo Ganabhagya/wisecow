@@ -1,0 +1,2 @@
+2024-06-18 07:43:05.745588: Application at http://example.com is up
+2024-06-18 07:58:43.715249: Application at http://example.com is up

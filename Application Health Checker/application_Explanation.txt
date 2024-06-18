@@ -1,0 +1,14 @@
+This script checks the uptime of an application by sending an HTTP request and evaluating the HTTP status code returned. If the status code is 200, the application is considered 'up'. Otherwise, it is considered 'down'.
+Explanation:
+1. check_application_health(url): This function takes a URL as input and sends an HTTP GET request to the specified URL using the requests library. It returns 'up' if the status code is 200, and 'down' otherwise.
+2. log_application_status(url, status): This function logs the current status of the application along with the timestamp to a file named application_health_log.txt.
+3. main(): This is the main function that defines the URL of the application to be checked, calls the check_application_health function, prints the status, and logs it using the log_application_status function.
+
+Dependencies:
+The script requires the requests library, which can be installed using pip:
+pip install requests
+Usage:
+Replace "http://example.com" with the URL of the application you want to monitor.
+Run the script:
+python application_health_checker.py
+The status will be printed on the console, and it will also be logged in application_health_log.txt.
